@@ -7,7 +7,7 @@ This is a feedreader application utilizing Jasmine for testing.
 Clone or fork this repo and run the index.html.
 
 
-# Dependencies
+### Dependencies
 
 1. jQuery 2.1.1 or above
 2. Jasmine 2.1.2 or above
