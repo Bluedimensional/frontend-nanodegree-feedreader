@@ -104,13 +104,13 @@ $(function() {
          */
 
          beforeEach(function(done) {
-            loadFeed(0, done);   // passing the "0" function lets Jasmine know that our beforeEach function is done, and can process with the test. in other words, once the feed is loaded, process with the test.
+            loadFeed(0, done);   // passing the "0" function lets Jasmine know that our beforeEach function is done, and can proceed with the test. in other words, once the feed is loaded, process with the test.
 
          });
 
          it('completes its work', function() {
-            const feed = document.querySelector('.feed');
-            expect(feed.children.length > 0).toBe(true);
+            const feed = document.querySelector('.feed'); // store .feed element
+            expect(feed.children.length > 0).toBe(true); // expect feed to have at least one child, an entry.
 
          });
 
@@ -139,6 +139,7 @@ $(function() {
          it('content changed', function() {
             Array.from(feed.children).forEach(function(entry, index) {
                 console.log(entry.innerText, firstFeed[index], entry.innerText === firstFeed[index]);
+
                 expect(entry.innerText === firstFeed[index]).toBe(false);
             });
          });
