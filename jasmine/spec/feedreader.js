@@ -32,10 +32,7 @@ $(function() {
         });
 
 
-        /* This test loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+        /* This test loops through each feed in the allFeeds object and ensures it has a name defined and that the name is not empty. */
 
          it('have a name defined', function() {
             for (let feed of allFeeds) {
@@ -46,29 +43,26 @@ $(function() {
 
     });
 
-    /* THe menu suite */
+    /* The menu suite */
     describe('The menu', function() {
 
-
          /* This test ensures the menu element is hidden by default */
-
          it('element is hidden by default', function() {
-            const body = document.querySelector('body');
-            expect(body.classList.contains('menu-hidden')).toBe(true);
+            const $body = $('body');
+            expect($body.hasClass('menu-hidden')).toBe(true);
          });
 
-         /* This test ensures the menu changes
-          * visibility when the menu icon is clicked.
-          */
-
+         /* This test ensures the menu changes visibility when the menu icon is clicked. */
           it('changes visibility when the menu item is clicked.', function() {
-            const body = document.querySelector('body');
-            const menu = document.querySelector('.menu-icon-link');
-            menu.click();
-            expect(body.classList.contains('menu-hidden')).toBe(false);
+            // const body = document.querySelector('body');
+            const $body = $('body');
+            // const menu = document.querySelector('.menu-icon-link');
+            const $menu = $('.menu-icon-link');
+            $menu.click();
+            expect($body.hasClass('menu-hidden')).toBe(false);
             // does it hide when clicked again.
-            menu.click();
-            expect(body.classList.contains('menu-hidden')).toBe(true);
+            $menu.click();
+            expect($body.hasClass('menu-hidden')).toBe(true);
 
           });
 
@@ -87,8 +81,9 @@ $(function() {
          });
 
          it('completes its work', function() {
-            const feed = document.querySelector('.feed'); // store .feed element
-            expect(feed.children.length > 0).toBe(true); // expect feed to have at least one child, an entry.
+            const $feed = $('.feed'); // store .feed element
+            const $entry = $('.entry');
+            expect($('.feed .entry')).toBe(true); // TODO: not sure what is wrong.
 
          });
 
@@ -99,25 +94,36 @@ $(function() {
     /* New Feed Selection suite */
     describe('New Feed Selection', function() {
         const feed = document.querySelector('.feed'); // store .feed element in feed variable
-        const firstFeed = []; // store first feed's content in empty arraw
+        const firstFeed = []; // store first feed's content in empty array
 
         /* This test ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          */
          beforeEach(function(done) {
-            loadFeed(0);
-            Array.from(feed.children).forEach(function(entry) { // convert feed's children - the .entry(s) - into an array, pushing their innerText into it
-                firstFeed.push(entry.innerText);
+
+            loadFeed(0, function() {
+                // feed 0 done loading
+
+                const prevFeedDate = $('.feed');
             });
-            loadFeed(1, done);
+
+            loadFeed(1, function() {
+                // feed 1 done loading
+
+                const newFeedData = $('.feed');
+
+                // all variables initialized, can begin test
+                done();
+
+            });
         });
 
-         it('content changed', function() {
-            Array.from(feed.children).forEach(function(entry, index) {
-                console.log(entry.innerText, firstFeed[index], entry.innerText === firstFeed[index]);
 
-                expect(entry.innerText === firstFeed[index]).toBe(false);
-            });
+
+         it('content changed', function() {
+            const $feed = $('.feed'); // store .feed element
+
+                expect(prevFeedData != newFeedData).toBe(true);
          });
 
     });
