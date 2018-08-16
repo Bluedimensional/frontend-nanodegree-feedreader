@@ -81,9 +81,8 @@ $(function() {
          });
 
          it('completes its work', function() {
-            const $feed = $('.feed'); // store .feed element
-            const $entry = $('.entry');
-            expect($('.feed .entry')).toBe(true); // TODO: not sure what is wrong.
+            const $feed = $('.feed .entry');
+            expect($feed.length).toBeGreaterThan(0); // TODO: not sure what is wrong.
 
          });
 
@@ -93,37 +92,36 @@ $(function() {
 
     /* New Feed Selection suite */
     describe('New Feed Selection', function() {
-        const feed = document.querySelector('.feed'); // store .feed element in feed variable
-        const firstFeed = []; // store first feed's content in empty array
+        let feed = document.querySelector('.feed'); // store .feed element in feed variable
+        let firstFeed = []; // store first feed's content in empty array
+        let newFeedData = [];
 
         /* This test ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          */
-         beforeEach(function(done) {
+        beforeEach(function(done) {
 
             loadFeed(0, function() {
                 // feed 0 done loading
 
-                const prevFeedDate = $('.feed');
-            });
+                Array.from(feed.children).forEach(function(feed) {
+                    firstFeed.push(feed.innerText);
 
-            loadFeed(1, function() {
-                // feed 1 done loading
+                    loadFeed(1, function() {
+                        Array.from(feed.children).forEach(function(feed) {
+                            newFeedData.push(feed.innerText);
+                        })
 
-                const newFeedData = $('.feed');
+                        // all variables initialized, can begin test
+                        done();
 
-                // all variables initialized, can begin test
-                done();
-
+                    });
+                });
             });
         });
 
-
-
-         it('content changed', function() {
-            const $feed = $('.feed'); // store .feed element
-
-                expect(prevFeedData != newFeedData).toBe(true);
+        it('content changed', function() {
+            expect(firstFeed).not.toEqual(newFeedData);
          });
 
     });
